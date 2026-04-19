@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 
+    //app nav
+    alias(libs.plugins.kotlinSerialization)
     //room
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
@@ -52,6 +54,10 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+            //app nav
+            implementation(libs.navigation.compose)
+            implementation(libs.kotlinx.serialization.json)
 
             //room
             implementation(libs.androidx.room.runtime)
