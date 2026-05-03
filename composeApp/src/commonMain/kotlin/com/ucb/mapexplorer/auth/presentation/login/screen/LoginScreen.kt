@@ -27,6 +27,7 @@ import com.ucb.mapexplorer.navigation.NavRoute
 import mapexplorer.composeapp.generated.resources.Res
 import mapexplorer.composeapp.generated.resources.login_btn
 import mapexplorer.composeapp.generated.resources.login_email
+import mapexplorer.composeapp.generated.resources.login_no_account
 import mapexplorer.composeapp.generated.resources.login_password
 import mapexplorer.composeapp.generated.resources.login_title
 import org.jetbrains.compose.resources.stringResource
@@ -110,7 +111,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "¿No estás registrado? Registrarse",
+            text = stringResource(Res.string.login_no_account),
             modifier = Modifier.clickable {
                 viewModel.onEvent(LoginEvent.OnClickRegister)
             }

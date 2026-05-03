@@ -20,15 +20,20 @@ class AuthRepositoryImpl(
         return dto.password == password
     }
 
+    private fun safeKey(email: String): String {
+        return email.replace(".", "_").replace("@", "_")
+    }
+
     override suspend fun register(user: UserModel): Boolean {
         return try {
 
-            // validar si existe
-            val exist = firebase.getData("users/${user.email}")
+            val key = safeKey(user.email)
+
+            val exist = firebase.getData("users/$key")
             if (exist != null) return false
 
             val json = Json.encodeToString(user.toDto())
-            firebase.saveData("users/${user.email}", json)
+            firebase.saveData("users/$key", json)
 
             true
         } catch (e: Exception) {

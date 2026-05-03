@@ -24,6 +24,16 @@ import com.ucb.mapexplorer.auth.presentation.register.state.RegisterEffect
 import com.ucb.mapexplorer.auth.presentation.register.state.RegisterEvent
 import com.ucb.mapexplorer.auth.presentation.register.viewmodel.RegisterViewModel
 import com.ucb.mapexplorer.navigation.NavRoute
+import mapexplorer.composeapp.generated.resources.Res
+import mapexplorer.composeapp.generated.resources.register_btn
+import mapexplorer.composeapp.generated.resources.register_confirm_password
+import mapexplorer.composeapp.generated.resources.register_description
+import mapexplorer.composeapp.generated.resources.register_email
+import mapexplorer.composeapp.generated.resources.register_have_account
+import mapexplorer.composeapp.generated.resources.register_password
+import mapexplorer.composeapp.generated.resources.register_title
+import mapexplorer.composeapp.generated.resources.register_username
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -61,7 +71,7 @@ fun RegisterScreen(
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text("Register")
+        Text(stringResource(Res.string.register_title))
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -70,7 +80,9 @@ fun RegisterScreen(
             onValueChange = {
                 viewModel.onEvent(RegisterEvent.OnUsernameChanged(it))
             },
-            label = { Text("Username") }
+            label = {
+                Text(stringResource(Res.string.register_username))
+            }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -80,7 +92,9 @@ fun RegisterScreen(
             onValueChange = {
                 viewModel.onEvent(RegisterEvent.OnEmailChanged(it))
             },
-            label = { Text("Email") }
+            label = {
+                Text(stringResource(Res.string.register_email))
+            }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -90,7 +104,9 @@ fun RegisterScreen(
             onValueChange = {
                 viewModel.onEvent(RegisterEvent.OnPasswordChanged(it))
             },
-            label = { Text("Password") }
+            label = {
+                Text(stringResource(Res.string.register_password))
+            }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -100,7 +116,9 @@ fun RegisterScreen(
             onValueChange = {
                 viewModel.onEvent(RegisterEvent.OnConfirmPasswordChanged(it))
             },
-            label = { Text("Confirm Password") }
+            label = {
+                Text(stringResource(Res.string.register_confirm_password))
+            }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -110,7 +128,9 @@ fun RegisterScreen(
             onValueChange = {
                 viewModel.onEvent(RegisterEvent.OnDescriptionChanged(it))
             },
-            label = { Text("Descripción") }
+            label = {
+                Text(stringResource(Res.string.register_description))
+            }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -121,13 +141,13 @@ fun RegisterScreen(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Registrarse")
+            Text(stringResource(Res.string.register_btn))
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "¿Ya tienes cuenta? Iniciar sesión",
+            text = stringResource(Res.string.register_have_account),
             modifier = Modifier.clickable {
                 viewModel.onEvent(RegisterEvent.OnClickLogin)
             }
