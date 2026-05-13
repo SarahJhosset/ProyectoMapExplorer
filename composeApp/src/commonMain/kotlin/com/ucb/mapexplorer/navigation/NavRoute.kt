@@ -14,5 +14,8 @@ sealed class NavRoute {
     @Serializable
     object Register: NavRoute()
 
+    @Serializable
+    object Map: NavRoute()
+
 
 }

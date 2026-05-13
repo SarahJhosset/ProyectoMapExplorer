@@ -10,7 +10,7 @@ import com.ucb.mapexplorer.dollar.data.dao.DollarDao
 import com.ucb.mapexplorer.dollar.data.entity.DollarEntity
 
 
-@Database(entities = [DollarEntity::class, UserEntity::class], version = 1)
+@Database(entities = [DollarEntity::class, UserEntity::class], version = 2)
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getDao(): DollarDao

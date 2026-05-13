@@ -16,11 +16,12 @@ import com.ucb.designsystem.components.input.BasicInput
 import com.ucb.mapexplorer.auth.presentation.register.state.RegisterEffect
 import com.ucb.mapexplorer.auth.presentation.register.state.RegisterEvent
 import com.ucb.mapexplorer.auth.presentation.register.viewmodel.RegisterViewModel
-import com.ucb.mapexplorer.navigation.NavRoute // ASEGÚRATE QUE ESTO EXISTA
+import com.ucb.mapexplorer.navigation.NavRoute 
 import mapexplorer.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
 @Composable
 fun RegisterScreen(
     navController: NavController,
@@ -34,7 +35,15 @@ fun RegisterScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 RegisterEffect.NavigateToLogin -> {
-                    navController.navigate(NavRoute.Login)
+                    navController.navigate(NavRoute.Login) {
+                        popUpTo(NavRoute.Register) { inclusive = true }
+                    }
+                }
+                RegisterEffect.NavigateToHome -> {
+                    // Esta es la rama que faltaba para solucionar el error
+                    navController.navigate(NavRoute.Map) {
+                        popUpTo(NavRoute.Register) { inclusive = true }
+                    }
                 }
                 is RegisterEffect.ShowError -> {
                     snackbarHostState.showSnackbar(effect.message)
@@ -104,7 +113,7 @@ fun RegisterScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // 4. CONFIRM PASSWORD (Nuevo)
+                // 4. CONFIRM PASSWORD
                 Text(stringResource(Res.string.register_confirm_password), style = AppTheme.typography.bodyMedium)
                 BasicInput(
                     value = state.confirmPassword,
@@ -115,7 +124,7 @@ fun RegisterScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // 5. DESCRIPTION (Nuevo - Para tu UserModel)
+                // 5. DESCRIPTION
                 Text(stringResource(Res.string.register_description), style = AppTheme.typography.bodyMedium)
                 BasicInput(
                     value = state.description,

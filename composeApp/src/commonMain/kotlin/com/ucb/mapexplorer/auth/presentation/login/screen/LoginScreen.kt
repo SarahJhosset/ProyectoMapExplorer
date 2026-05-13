@@ -35,8 +35,15 @@ fun LoginScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                LoginEffect.NavigateToHome -> { /* Implementar home */ }
-                LoginEffect.NavigateToRegister -> { navController.navigate(NavRoute.Register) }
+                LoginEffect.NavigateToHome -> {
+                    // Redirección al mapa limpiando por completo el flujo de autenticación de la pila
+                    navController.navigate(NavRoute.Map) {
+                        popUpTo(NavRoute.Login) { inclusive = true }
+                    }
+                }
+                LoginEffect.NavigateToRegister -> {
+                    navController.navigate(NavRoute.Register)
+                }
                 is LoginEffect.ShowError -> { /* Mostrar error */ }
             }
         }
