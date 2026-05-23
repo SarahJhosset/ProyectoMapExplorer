@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ListItemDefaults.contentColor
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.ucb.designsystem.theme.AppTheme
 
 @Composable
 fun PrimaryButton(
@@ -32,8 +32,8 @@ fun PrimaryButton(
         enabled = enabled && !isLoading,
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = containerColor, // Aquí aplicamos el 0xFF2C2C2C si es primary
-            contentColor = contentColor,     // Texto blanco si el fondo es oscuro
+            containerColor = containerColor,
+            contentColor = contentColor,
             disabledContainerColor = if (isPrimary) AppTheme.colors.secondary.copy(alpha = 0.12f) else Color.Transparent
         ),
         border = if (isPrimary) null else BorderStroke(1.dp, borderColor)
@@ -49,7 +49,6 @@ fun PrimaryButton(
                 text = text,
                 style = AppTheme.typography.labelLarge,
                 color = contentColor
-
             )
         }
     }

@@ -21,3 +21,14 @@ actual fun saveLanguageSetting(code: String) {
 actual fun getLanguageSetting(): String? {
     return NSUserDefaults.standardUserDefaults.stringForKey("language_code")
 }
+
+actual fun saveThemeSetting(isDark: Boolean) {
+    NSUserDefaults.standardUserDefaults.setBool(isDark, "is_dark_theme")
+}
+
+actual fun getThemeSetting(): Boolean? {
+    val defaults = NSUserDefaults.standardUserDefaults
+    return if (defaults.objectForKey("is_dark_theme") != null) {
+        defaults.boolForKey("is_dark_theme")
+    } else null
+}

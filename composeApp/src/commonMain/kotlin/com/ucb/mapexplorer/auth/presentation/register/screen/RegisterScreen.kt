@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ucb.designsystem.components.button.PrimaryButton
 import com.ucb.designsystem.components.input.BasicInput
-
+import com.ucb.designsystem.theme.AppTheme
 import com.ucb.mapexplorer.auth.presentation.register.state.RegisterEffect
 import com.ucb.mapexplorer.auth.presentation.register.state.RegisterEvent
 import com.ucb.mapexplorer.auth.presentation.register.viewmodel.RegisterViewModel
@@ -72,15 +72,25 @@ fun RegisterScreen(
         ElevatedCard(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.elevatedCardColors(containerColor = Color.White)
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = AppTheme.colors.surface
+            )
         ) {
             Column(modifier = Modifier.padding(24.dp)) {
 
-                Text(stringResource(Res.string.signIn_tittle), style = AppTheme.typography.headlineLarge)
+                Text(
+                    text = stringResource(Res.string.signIn_tittle), 
+                    style = AppTheme.typography.headlineLarge,
+                    color = AppTheme.colors.textPrimary
+                )
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 1. USERNAME
-                Text(stringResource(Res.string.signIn_subtittle_username), style = AppTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(Res.string.signIn_subtittle_username), 
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textPrimary
+                )
                 BasicInput(
                     value = state.username,
                     onValueChange = { viewModel.onEvent(RegisterEvent.OnUsernameChanged(it)) },
@@ -91,7 +101,11 @@ fun RegisterScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // 2. EMAIL
-                Text(stringResource(Res.string.signIn_subtittle_email), style = AppTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(Res.string.signIn_subtittle_email), 
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textPrimary
+                )
                 BasicInput(
                     value = state.email,
                     onValueChange = { viewModel.onEvent(RegisterEvent.OnEmailChanged(it)) },
@@ -102,7 +116,11 @@ fun RegisterScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // 3. PASSWORD
-                Text(stringResource(Res.string.signIn_subtittle_password), style = AppTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(Res.string.signIn_subtittle_password), 
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textPrimary
+                )
                 BasicInput(
                     value = state.password,
                     onValueChange = { viewModel.onEvent(RegisterEvent.OnPasswordChanged(it)) },
@@ -113,7 +131,11 @@ fun RegisterScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // 4. CONFIRM PASSWORD
-                Text(stringResource(Res.string.signIn_subtittle_confirmPassword), style = AppTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(Res.string.signIn_subtittle_confirmPassword), 
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textPrimary
+                )
                 BasicInput(
                     value = state.confirmPassword,
                     onValueChange = { viewModel.onEvent(RegisterEvent.OnConfirmPasswordChanged(it)) },
@@ -124,7 +146,11 @@ fun RegisterScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // 5. DESCRIPTION
-                Text(stringResource(Res.string.optionalData_subtittle_description), style = AppTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(Res.string.optionalData_subtittle_description), 
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textPrimary
+                )
                 BasicInput(
                     value = state.description,
                     onValueChange = { viewModel.onEvent(RegisterEvent.OnDescriptionChanged(it)) },

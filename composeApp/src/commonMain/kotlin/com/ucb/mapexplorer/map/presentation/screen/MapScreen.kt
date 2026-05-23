@@ -1,19 +1,23 @@
 package com.ucb.mapexplorer.map.presentation.screen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.ucb.mapexplorer.core.AppLanguage
-import com.ucb.mapexplorer.core.LocalAppLanguage
-import com.ucb.mapexplorer.core.LocalLanguageController
+import androidx.compose.ui.unit.sp
+import com.ucb.designsystem.components.button.PrimaryButton
+import com.ucb.designsystem.theme.AppTheme
+import com.ucb.designsystem.theme.ThemeMode
+import com.ucb.mapexplorer.core.*
 import mapexplorer.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,12 +36,14 @@ fun MapScreen() {
         },
         sheetPeekHeight = 80.dp,
         sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-        sheetContainerColor = Color.White,
+        sheetContainerColor = AppTheme.colors.surface,
         sheetDragHandle = {
-            BottomSheetDefaults.DragHandle()
+            BottomSheetDefaults.DragHandle(
+                color = AppTheme.colors.textSecondary.copy(alpha = 0.5f)
+            )
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+        Box(modifier = Modifier.fillMaxSize().padding(innerPadding).background(AppTheme.colors.background)) {
             MapViewContainer(
                 modifier = Modifier.fillMaxSize()
             )
@@ -47,30 +53,39 @@ fun MapScreen() {
 
 @Composable
 private fun MapSettingsContent() {
-    val currentLanguage = LocalAppLanguage.current
+    // Valores globales actuales (reales)
+    val globalLanguage = LocalAppLanguage.current
+    val globalTheme = LocalThemeMode.current
+    
+    // Controladores globales para aplicar cambios
     val changeLanguage = LocalLanguageController.current
+    val changeTheme = LocalThemeController.current
+
+    // ESTADO TEMPORAL (Borrador del usuario)
+    var tempLanguage by remember(globalLanguage) { mutableStateOf(globalLanguage) }
+    var tempTheme by remember(globalTheme) { mutableStateOf(globalTheme) }
+
+    // Verificamos si el usuario ha movido algo respecto a lo guardado
+    val hasChanges = tempLanguage != globalLanguage || tempTheme != globalTheme
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .background(AppTheme.colors.surface)
             .padding(horizontal = 24.dp)
             .padding(bottom = 40.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        Text(
-            text = stringResource(Res.string.moreOptions_tittle),
-            style = AppTheme.typography.headlineLarge,
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+        // --- SECCIÓN: CONFIGURACIÓN ---
+        SectionHeader(stringResource(Res.string.moreOptions_tittle_configuration))
         
-        HorizontalDivider(modifier = Modifier.padding(bottom = 24.dp), color = Color.LightGray.copy(alpha = 0.5f))
-        
-        // SECCIÓN DE IDIOMA
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Selector de Idioma
         Text(
             text = stringResource(Res.string.moreOptions_subtittle_language),
             style = AppTheme.typography.bodyMedium,
+            color = AppTheme.colors.textPrimary,
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
@@ -78,49 +93,119 @@ private fun MapSettingsContent() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LanguageChip(
+            SettingChip(
                 text = stringResource(Res.string.moreOptions_optionText_spanish),
-                isSelected = currentLanguage == AppLanguage.SPANISH,
-                onClick = { changeLanguage(AppLanguage.SPANISH) }
+                isSelected = tempLanguage == AppLanguage.SPANISH,
+                onClick = { tempLanguage = AppLanguage.SPANISH }
             )
-            LanguageChip(
+            SettingChip(
                 text = stringResource(Res.string.moreOptions_optionText_english),
-                isSelected = currentLanguage == AppLanguage.ENGLISH,
-                onClick = { changeLanguage(AppLanguage.ENGLISH) }
+                isSelected = tempLanguage == AppLanguage.ENGLISH,
+                onClick = { tempLanguage = AppLanguage.ENGLISH }
             )
         }
         
-        Spacer(modifier = Modifier.height(32.dp))
-        
-        // Espacio para futuras funciones
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .background(Color.Gray.copy(alpha = 0.1f), RoundedCornerShape(12.dp)),
-            contentAlignment = Alignment.Center
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Selector de Tema
+        Text(
+            text = stringResource(Res.string.moreOptions_subtittle_theme),
+            style = AppTheme.typography.bodyMedium,
+            color = AppTheme.colors.textPrimary,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                text = "Más funciones próximamente",
-                style = AppTheme.typography.bodyMedium,
-                color = Color.Gray
+            SettingChip(
+                text = stringResource(Res.string.moreOptions_optionText_bright),
+                isSelected = tempTheme == ThemeMode.LIGHT,
+                onClick = { tempTheme = ThemeMode.LIGHT }
+            )
+            SettingChip(
+                text = stringResource(Res.string.moreOptions_optionText_dark),
+                isSelected = tempTheme == ThemeMode.DARK,
+                onClick = { tempTheme = ThemeMode.DARK }
             )
         }
+        
+        // BOTONES DE ACCIÓN (Solo aparecen si hay cambios pendientes)
+        if (hasChanges) {
+            Spacer(modifier = Modifier.height(32.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // BOTÓN REVERTIR
+                OutlinedButton(
+                    onClick = {
+                        tempLanguage = globalLanguage
+                        tempTheme = globalTheme
+                    },
+                    modifier = Modifier.weight(1f).height(48.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    border = BorderStroke(1.dp, AppTheme.colors.border),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = AppTheme.colors.textPrimary
+                    )
+                ) {
+                    Text(stringResource(Res.string.buttonText_cancel), style = AppTheme.typography.labelLarge)
+                }
+
+                // BOTÓN GUARDAR
+                PrimaryButton(
+                    text = stringResource(Res.string.buttonText_save),
+                    onClick = {
+                        if (tempLanguage != globalLanguage) changeLanguage(tempLanguage)
+                        if (tempTheme != globalTheme) changeTheme(tempTheme)
+                    },
+                    modifier = Modifier.weight(1f).height(48.dp)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        // --- SECCIÓN: MIS GUARDADOS ---
+        SectionHeader(stringResource(Res.string.moreOptions_tittle_mySaves))
+
     }
 }
 
 @Composable
-private fun LanguageChip(
+private fun SectionHeader(title: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title.uppercase(),
+            style = AppTheme.typography.labelLarge,
+            color = AppTheme.colors.textSecondary,
+            letterSpacing = 1.2.sp
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        com.ucb.designsystem.components.divider.HorizontalDivider(
+            modifier = Modifier.weight(1f),
+            color = AppTheme.colors.border.copy(alpha = 0.5f)
+        )
+    }
+}
+
+@Composable
+private fun SettingChip(
     text: String,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
     Surface(
-        modifier = Modifier
-            .clickable { onClick() },
+        modifier = Modifier.clickable { onClick() },
         shape = RoundedCornerShape(12.dp),
-        color = if (isSelected) AppTheme.colors.primary else Color.Gray.copy(alpha = 0.1f),
-        contentColor = if (isSelected) Color.White else Color.Black
+        color = if (isSelected) AppTheme.colors.primary else AppTheme.colors.textPrimary.copy(alpha = 0.05f),
+        contentColor = if (isSelected) Color.White else AppTheme.colors.textPrimary,
+        border = if (!isSelected) BorderStroke(1.dp, AppTheme.colors.border.copy(alpha = 0.3f)) else null
     ) {
         Text(
             text = text,

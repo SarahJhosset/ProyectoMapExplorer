@@ -10,12 +10,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import mapexplorer.composeapp.generated.resources.logo_map_explorer
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ucb.designsystem.components.button.PrimaryButton
 import com.ucb.designsystem.components.input.BasicInput
+import com.ucb.designsystem.theme.AppTheme
 import com.ucb.mapexplorer.auth.presentation.login.state.LoginEffect
 import com.ucb.mapexplorer.auth.presentation.login.state.LoginEvent
 import com.ucb.mapexplorer.auth.presentation.login.viewmodel.LoginViewModel
@@ -68,15 +68,25 @@ fun LoginScreen(
         ElevatedCard(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.elevatedCardColors(containerColor = Color.White)
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = AppTheme.colors.surface // DINÁMICO
+            )
         ) {
             Column(
                 modifier = Modifier.padding(24.dp)
             ) {
-                Text(stringResource(Res.string.login_tittle), style = AppTheme.typography.headlineLarge)
+                Text(
+                    text = stringResource(Res.string.login_tittle), 
+                    style = AppTheme.typography.headlineLarge,
+                    color = AppTheme.colors.textPrimary
+                )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(stringResource(Res.string.login_subtittle_email), style = AppTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(Res.string.login_subtittle_email), 
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textPrimary
+                )
                 BasicInput(
                     value = state.email,
                     onValueChange = { viewModel.onEvent(LoginEvent.OnEmailChanged(it)) },
@@ -86,11 +96,15 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(stringResource(Res.string.login_subtittle_password), style = AppTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(Res.string.login_subtittle_password), 
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textPrimary
+                )
                 BasicInput(
                     value = state.password,
                     onValueChange = { viewModel.onEvent(LoginEvent.OnPasswordChanged(it)) },
-                    label = "",
+                    label = "", 
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -109,6 +123,7 @@ fun LoginScreen(
                     style = AppTheme.typography.bodySmall.copy(
                         textDecoration = TextDecoration.Underline
                     ),
+                    color = AppTheme.colors.textSecondary,
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .clickable { /* Acción */ }
@@ -118,7 +133,8 @@ fun LoginScreen(
 
                 Text(
                     text = stringResource(Res.string.login_dontHaveAccount_question),
-                    style = AppTheme.typography.bodyMedium
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textPrimary
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))

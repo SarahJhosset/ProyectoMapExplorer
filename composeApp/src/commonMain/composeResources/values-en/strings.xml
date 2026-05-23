@@ -4,7 +4,7 @@
  Project: MapExplorer
  Locale: en-US, English (USA)
  Exported by: CHRISTOPHER BORIS QUIROZ GARECA
- Exported at: Mon, 18 May 2026 11:23:25 -0400
+ Exported at: Sat, 23 May 2026 12:05:59 -0400
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="login_tittle">LOG IN</string>
@@ -29,7 +29,7 @@
     <string name="navigationBar_socialMedia_textSelection">Social Media</string>
     <string name="navigationBar_nearbyPlaces_textSelection">Nearby Places</string>
     <string name="navigationBar_profile_textSelection">Profile</string>
-    <string name="moreOptions_tittle">More Options</string>
+    <string name="moreOptions_tittle_configuration">Configuration</string>
     <string name="moreOptions_subtittle_language">Language:</string>
     <string name="moreOptions_optionText_spanish">Spanish</string>
     <string name="moreOptions_optionText_english">English</string>
@@ -75,4 +75,5 @@
     <string name="buttonText_cancel">Cancel</string>
     <string name="buttonText_save">Save</string>
     <string name="navigationSelector_backToSocialMedia">Go Back to SocialMedia</string>
+    <string name="moreOptions_tittle_mySaves">My saves</string>
 </resources>

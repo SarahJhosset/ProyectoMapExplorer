@@ -1,26 +1,22 @@
 package com.ucb.mapexplorer
 
-import DsTheme
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.ucb.mapexplorer.core.AppLanguage
-import com.ucb.mapexplorer.core.LocalAppLanguage
-import com.ucb.mapexplorer.core.LocalAppLocale
-import com.ucb.mapexplorer.core.LocalLanguageController
+import com.ucb.designsystem.theme.AppTheme
+import com.ucb.designsystem.theme.DsTheme
+import com.ucb.designsystem.theme.ThemeMode
+import com.ucb.mapexplorer.core.*
 import com.ucb.mapexplorer.navigation.AppNavHost
 
 @Composable
 @Preview
 fun App() {
-    val currentMode = ThemeMode.LIGHT
-    val snackbarHostState = remember { SnackbarHostState() }
-    
-    // 1. Cargamos el idioma guardado O el del sistema si es la primera vez
+    // 1. Cargamos el idioma guardado O el del sistema
     var language by remember { 
         val savedCode = getLanguageSetting()
         val initialLanguage = if (savedCode != null) {
@@ -31,24 +27,41 @@ fun App() {
         mutableStateOf(initialLanguage) 
     }
 
-    // 2. Usamos 'key(language)' para forzar que toda la app se reinicie internamente 
-    // cuando el estado del idioma cambie. Esto asegura que stringResource se actualice.
-    key(language) {
-        CompositionLocalProvider(
-            LocalAppLanguage provides language,
-            LocalLanguageController provides { newLanguage -> 
-                language = newLanguage 
-                saveLanguageSetting(newLanguage.code)
-            },
-            LocalAppLocale.provides(language.code)
-        ) {
-            DsTheme(
-                mode = currentMode
-            ) {
-                Scaffold(
-                    contentWindowInsets = WindowInsets.safeDrawing,
-                    snackbarHost = { SnackbarHost(snackbarHostState) }
-                ) { paddingValues ->
+    // 2. Cargamos el tema guardado O el del sistema
+    val systemIsDark = isSystemInDarkTheme()
+    var themeMode by remember {
+        val savedTheme = getThemeSetting()
+        val initialTheme = if (savedTheme != null) {
+            if (savedTheme) ThemeMode.DARK else ThemeMode.LIGHT
+        } else {
+            if (systemIsDark) ThemeMode.DARK else ThemeMode.LIGHT
+        }
+        mutableStateOf(initialTheme)
+    }
+
+    // 3. Forzamos el Locale en la plataforma
+    val localeProvidedValue = LocalAppLocale.provides(language.code)
+
+    CompositionLocalProvider(
+        LocalAppLanguage provides language,
+        LocalLanguageController provides { newLanguage -> 
+            language = newLanguage 
+            saveLanguageSetting(newLanguage.code)
+        },
+        LocalThemeMode provides themeMode,
+        LocalThemeController provides { newTheme ->
+            themeMode = newTheme
+            saveThemeSetting(newTheme == ThemeMode.DARK)
+        },
+        localeProvidedValue
+    ) {
+        key(language, themeMode) {
+            DsTheme(mode = themeMode) {
+                // Box raíz para asegurar que el fondo del tema se aplique en toda la aplicación
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .background(AppTheme.colors.background)
+                ) {
                     AppNavHost()
                 }
             }
