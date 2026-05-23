@@ -5,3 +5,9 @@ interface Platform {
 }
 
 expect fun getPlatform(): Platform
+
+expect fun getSystemLanguageCode(): String
+
+expect fun saveLanguageSetting(code: String)
+
+expect fun getLanguageSetting(): String?
