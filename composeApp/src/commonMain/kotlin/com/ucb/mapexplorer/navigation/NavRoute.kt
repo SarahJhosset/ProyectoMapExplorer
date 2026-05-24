@@ -13,4 +13,16 @@ sealed class NavRoute {
 
     @Serializable
     object Map: NavRoute()
+
+    @Serializable
+    object Explanation1: NavRoute()
+
+    @Serializable
+    object Explanation2: NavRoute()
+
+    @Serializable
+    object Explanation3: NavRoute()
+
+    @Serializable
+    object Explanation4: NavRoute()
 }

@@ -4,7 +4,7 @@
  Project: MapExplorer
  Locale: en-US, English (USA)
  Exported by: CHRISTOPHER BORIS QUIROZ GARECA
- Exported at: Sat, 23 May 2026 12:05:59 -0400
+ Exported at: Sun, 24 May 2026 12:00:54 -0400
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="login_tittle">LOG IN</string>
@@ -53,9 +53,9 @@
     <string name="presentation_subtittle_exploreYourWorld">Explore your world like never before</string>
     <string name="presentation_description_exploreYourWorld">Explore your world like never before. Discover new areas around you and unlock parts of the map as you walk. Every place you explore brings you closer to becoming a true explorer.</string>
     <string name="presentation_subtittle_shareWithFriends">Share with your friends</string>
-    <string name="presentation_description_shareWithFriends">Post and share with people around the world about a place you\'ve recently visited on your map.</string>
+    <string name="presentation_description_shareWithFriends">Post and share with people around the world about a place you have recently visited on your map.</string>
     <string name="presentation_subtittle_exploreWithSafety">Explore with safety and in comunity</string>
-    <string name="presentation_descriptionPart1_exploreWithSafety">You\'ll be warned about dangerous places that many reviews say are not recommended.\n\nStay away from places marked with this icon on the map:</string>
+    <string name="presentation_descriptionPart1_exploreWithSafety">You will be warned about dangerous places that many reviews say are not recommended.\n\nStay away from places marked with this icon on the map:</string>
     <string name="presentation_descriptionPart2_exploreWithSafety">Get safe routes, discover places recommended by your friends, and share your adventures in real time.\nYour information will always be protected.</string>
     <string name="profileView_subtittle_description">Description</string>
     <string name="profileView_subtittle_age">Age</string>

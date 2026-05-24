@@ -40,7 +40,8 @@ fun RegisterScreen(
                     }
                 }
                 RegisterEffect.NavigateToHome -> {
-                    navController.navigate(NavRoute.Map) {
+                    // Cambiado para que vaya a las explicaciones después de registrarse
+                    navController.navigate(NavRoute.Explanation1) {
                         popUpTo(NavRoute.Register) { inclusive = true }
                     }
                 }
